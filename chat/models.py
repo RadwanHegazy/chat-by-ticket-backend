@@ -12,6 +12,7 @@ class Chat (models.Model) :
 class Message (models.Model) : 
     chat = models.ForeignKey(Chat,on_delete=models.CASCADE)
     body = models.TextField()
+    sender = models.CharField(max_length=100)
 
     def __str__(self) -> str:
         return self.body

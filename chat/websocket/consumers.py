@@ -44,7 +44,7 @@ class ChatConsumer (WebsocketConsumer) :
             self.CHAT_GROUP,
             {
                 'type' : 'send_msg',
-                'msgs' : messages.data
+                'msgs' : {'messages':messages.data}
             }
         )
 
@@ -55,6 +55,10 @@ class ChatConsumer (WebsocketConsumer) :
             self.channel_name
         )
 
+        if self.user.is_authenticated:
+            self.ticket.is_done = True
+            self.ticket.save()
+
 
     def receive(self, text_data):
         message = json.loads(text_data)
@@ -64,6 +68,11 @@ class ChatConsumer (WebsocketConsumer) :
             chat = Chat.objects.get(ticket=self.ticket)
         )
 
+        if self.user.is_authenticated : 
+            msg.sender = self.user.full_name
+        else:
+            msg.sender = "client"
+        
         msg.save()
 
         serializer = MessageSerializer(msg)

@@ -7,7 +7,6 @@ from ..serializers import TicketSerializer
 @decorators.permission_classes([permissions.IsAuthenticated])
 def get_tickets (request) : 
     try :
-        print(request.user)
         employee = Employee.objects.get(user=request.user)
         query = Ticket.objects.filter(employee=employee,is_done=False).order_by('created_at')
         serializer = TicketSerializer(query,many=True)
@@ -18,7 +17,7 @@ def get_tickets (request) :
         },status=status.HTTP_400_BAD_REQUEST)
     
 @decorators.api_view(['GET'])
-@decorators.permission_classes([permissions.IsAuthenticated])
+@decorators.permission_classes([permissions.AllowAny])
 def get_ticket_info (request,ticket_id) : 
     try :
         

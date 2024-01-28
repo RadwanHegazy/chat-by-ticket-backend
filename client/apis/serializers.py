@@ -1,7 +1,7 @@
 from ..models import Ticket, Client
 from rest_framework import serializers
 from django.contrib.humanize.templatetags import humanize
-import datetime
+
 class ClientSerializer (serializers.ModelSerializer) : 
     class Meta:
         model = Client
